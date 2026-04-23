@@ -1,5 +1,5 @@
-# subversive-go
-A Go adversarial AI agent implemented using Monte Carlo Tree Search. Runs a 9x9 Go board that compares a Monte Carlo Tree Search AI vs a random move baseline AI. 
+# Go AI implementation using Monte Carlo Tree Search
+## A Go adversarial AI agent implemented using Monte Carlo Tree Search. Runs a 9x9 Go board that compares a Monte Carlo Tree Search AI vs a random move baseline AI. 
 
 To clone: 
 ```
