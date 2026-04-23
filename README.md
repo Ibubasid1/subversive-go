@@ -34,8 +34,4 @@ When you add or remove dependencies, update the requirements file with:
 pip freeze > requirements.txt
 ```
 This gets all current dependencies installed and saves them to requirements.txt. This allows other users to download the new dependencies. 
-Run: 
-```
-pip install -r requirements.txt
-``` 
-every time you pull a new commit to make sure you have the latest dependencies. 
+Run: `pip install -r requirements.txt` every time you pull a new commit to make sure you have the latest dependencies. 
