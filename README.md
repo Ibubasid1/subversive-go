@@ -10,15 +10,16 @@ After cloning the repo, create a virtual environment then install requirements:
 ```
 python -m venv venv
 ```
-(windows)
+EITHER:
 ```
 venv\Scripts\activate
 ```
-(mac/linux)
+(windows)\nOR
 ```
 source venv/bin/activate
 ```
-
+(mac/linux)\n
+Install dependencies:
 ```
 pip install -r requirements.txt
 ```
