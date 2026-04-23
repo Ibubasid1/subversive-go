@@ -14,11 +14,14 @@ EITHER:
 ```
 venv\Scripts\activate
 ```
-(windows)\nOR
+(windows)
+
+OR
 ```
 source venv/bin/activate
 ```
-(mac/linux)\n
+(mac/linux)
+
 Install dependencies:
 ```
 pip install -r requirements.txt
