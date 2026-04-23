@@ -6,25 +6,23 @@ To clone:
 git clone https://github.com/Ibubasid1/subversive-go.git
 ```
 After cloning the repo, create a virtual environment then install requirements:
-1) 
+ 
 ```
 python -m venv venv
 ```
- (will create a venv folder by the name of venv in the directory the command is run)
-2) 
+(windows)
 ```
 venv\Scripts\activate
 ```
- (windows) OR 
- ```
- source venv/bin/activate
- ```
- (mac/linux) (running this command activates the virtual environment)
-3) 
+(mac/linux)
+```
+source venv/bin/activate
+```
+
 ```
 pip install -r requirements.txt
 ```
-4) 
+ 
 
 
 When you add or remove dependencies, update the requirements file with:
@@ -32,7 +30,7 @@ When you add or remove dependencies, update the requirements file with:
 pip freeze > requirements.txt
 ```
 This gets all current dependencies installed and saves them to requirements.txt. This allows other users to download the new dependencies. 
-Run 
+Run: 
 ```
 pip install -r requirements.txt
 ``` 
