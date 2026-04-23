@@ -1,5 +1,14 @@
 # Go MCTS AI
-## A Go adversarial AI agent implemented using Monte Carlo Tree Search. Runs a 9x9 Go board that compares a Monte Carlo Tree Search AI vs a random move baseline AI. 
+## A Go adversarial AI agent implemented using Monte Carlo Tree Search. Runs a 9x9 Go board that compares a Monte Carlo Tree Search AI vs a random move baseline AI *and another method used in class*. 
+
+## Table of Contents
+
+- [Installation](#installation)
+
+
+## Installation
+
+Instructions on how to install and set up the project.
 
 To clone: 
 ```
