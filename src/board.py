@@ -27,18 +27,18 @@ class Board:
         else:
             self.board[row][col] = piece
         self.moves += 1
-        
-    def view_board(self):
-        counter = 0
+
+    def __str__(self):
+        rows = []
         for row in self.board:
-            for col in row:
-                print(col, end="")
-                if(counter < 8):
-                    print("|", end="")
-                    counter += 1
-                else:
-                    print("")
-                    counter = 0
+            rows.append("|".join(str(cell) for cell in row))
+        return "\n".join(rows)
+
+    # def _traversal(self, row, col):
+    #     run = True
+    #     while run:
+    #         if self.board[row + 1][col] == 
+
 
 
 def main():
@@ -46,7 +46,8 @@ def main():
     b.place(1, 1)
     b.place(1,2)
     b.place(2,1)
-    b.view_board()
+    print(b)
+    
     
 
 
