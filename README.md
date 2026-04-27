@@ -44,3 +44,14 @@ pip freeze > requirements.txt
 ```
 This gets all current dependencies installed and saves them to requirements.txt. This allows other users to download the new dependencies. 
 Run: `pip install -r requirements.txt` every time you pull a new commit to make sure you have the latest dependencies. 
+
+
+
+## To-Do:
+<ul>
+    <li>Furhter detail installation guide
+    <li>Add section that gives an in-depth explanation
+    <li>Add reference section
+</ul>
+
+
