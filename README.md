@@ -4,6 +4,7 @@
 ## Table of Contents
 
 - [Installation](#installation)
+- [To-Do](#to-do)
 
 
 ## Installation
@@ -49,9 +50,10 @@ Run: `pip install -r requirements.txt` every time you pull a new commit to make 
 
 ## To-Do:
 <ul>
-    <li>Furhter detail installation guide
+    <li>Further detail installation guide
     <li>Add section that gives an in-depth explanation
     <li>Add reference section
+    <li>Make readme look prettier.
 </ul>
 
 
