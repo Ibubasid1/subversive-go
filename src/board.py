@@ -6,6 +6,7 @@ class Board:
         self.board = [[0]*Board.SIZE for _ in range(Board.SIZE)]
         self.moves = 0
         self.last_move = False
+        self.current_player = 1
 
     
     def skip(self):
@@ -17,16 +18,14 @@ class Board:
 
     def place(self, row, col): #uses a simply row and column to make the move
         #make a check to see whether the move is available
-        if(self.moves % 2 == 0):
-            piece = 1
-        else:
-            piece = 2
-
         if(self.board[row][col] == 1):
             print("Invalid move")
         else:
-            self.board[row][col] = piece
+            self.board[row][col] = self.current_player
+
         self.moves += 1
+
+        self.current_player = 2 if self.current_player == 1 else 1
 
     def __str__(self):
         rows = []
