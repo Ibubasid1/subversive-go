@@ -9,6 +9,17 @@ class Board:
         self.current_player = 1
         self.game_over = False
 
+    def get_adj(self, row, col):
+        adjacent = set()
+        if row < 8:
+            adjacent.add((row + 1, col))
+        if row > 0:
+            adjacent.add((row - 1, col))
+        if col < 8:
+            adjacent.add((row, col + 1))
+        if col > 0:
+            adjacent.add((row, col - 1))
+        return adjacent
     
     def skip(self):
         if self.last_was_pass: #checks if opponent has already passed
@@ -21,8 +32,26 @@ class Board:
         #make a check to see whether the move is available
         if self.board[row][col] == 1 or self.board[row][col] == 2:
             print("Invalid move")
+            return
         else:
             self.board[row][col] = self.current_player
+
+        valid_move = False
+        temp = self.get_adj(row, col)
+
+        for element in temp:
+            if self.count_liberties(element[0], element[1]) == 0 and self.board[element[0]][element[1]] != self.current_player:
+                valid_move = True
+                removable = self._traversal(element[0], element[1], self.board[element[0]][element[1]])
+                for item in removable:
+                    self.board[item[0]][item[1]] = 0
+        
+        if not valid_move:
+            self.board[row][col] = 0
+            print("Invalid move")
+            return
+
+        self.board[row][col] = self.current_player
 
         self.moves += 1
 
@@ -45,12 +74,32 @@ class Board:
         if (col - 1) >= 0 and self.board[row][col - 1] == color and (row, col - 1) not in visited:
             self._traversal_helper(row, col - 1, color, visited)
         return visited
-    
+
+    #main traversal function, used so that the 'visited' set is not reset on every instance of recursion
     def _traversal(self, row, col, color) -> set:
+        #checks for bounds and ensures color is the same as the piece currently in that position
         if(row >= 0 and row < 9 and col >= 0 and col < 9 and self.board[row][col] == color):
             visited = set()
             return self._traversal_helper(row, col, color, visited)
         return set()
+    
+    def count_liberties(self, row, col) -> int:
+        visited = set()
+        temp = self._traversal(row, col, self.board[row][col])
+        for element in temp:
+            r = element[0]
+            c = element[1]
+            #no need for a 'not in visited' check since if it was already in visited it would simply not be added again. sets hold unique values
+            if r < 8 and self.board[r + 1][c] == 0:
+                visited.add((r + 1, c))
+            if r > 0 and self.board[r - 1][c] == 0:
+                visited.add((r - 1, c))
+            if c < 8 and self.board[r][c + 1] == 0:
+                visited.add((r, c + 1))
+            if c > 0 and self.board[r][c - 1] == 0:
+                visited.add((r, c - 1))   
+        return len(visited)             
+
 
 
 
@@ -65,8 +114,10 @@ def main():
     b.place(3, 5)
     b.place(1, 0)
     empty = set()
-    empty = b._traversal(0, 0, 1)
+    empty = b._traversal(0, 0, 2)
     print(b)
+    for element in empty:
+        print(element[0])
     print(", ".join(str(element) for element in empty))
     
 
