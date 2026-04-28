@@ -9,6 +9,8 @@ class Board:
         self.current_player = 1
         self.game_over = False
 
+
+    #retrieves all adjacent pieces to the provided piece
     def get_adj(self, row, col):
         adjacent = set()
         if row < 8:
@@ -36,17 +38,15 @@ class Board:
         else:
             self.board[row][col] = self.current_player
 
-        valid_move = False
         temp = self.get_adj(row, col)
 
         for element in temp:
             if self.count_liberties(element[0], element[1]) == 0 and self.board[element[0]][element[1]] != self.current_player:
-                valid_move = True
                 removable = self._traversal(element[0], element[1], self.board[element[0]][element[1]])
                 for item in removable:
                     self.board[item[0]][item[1]] = 0
         
-        if not valid_move:
+        if self.count_liberties(row, col) == 0:
             self.board[row][col] = 0
             print("Invalid move")
             return
@@ -56,6 +56,8 @@ class Board:
         self.moves += 1
 
         self.current_player = 2 if self.current_player == 1 else 1
+
+        if self.moves >= 400: self.game_over = True
 
     def __str__(self):
         rows = []
@@ -105,20 +107,18 @@ class Board:
 
 def main():
     b = Board()
-    b.place(1, 1)
-    b.place(1, 2)
-    b.place(2, 1)
-    b.place(0, 1)
-    b.place(0, 2)
-    b.place(0, 0)
-    b.place(3, 5)
-    b.place(1, 0)
-    empty = set()
-    empty = b._traversal(0, 0, 2)
+    b.place(1, 1) #1
+    b.place(1, 2) #2
+    b.place(2, 1) #1
+    b.place(0, 1) #2
+    b.place(0, 2) #1
+    b.place(0, 0) #2
+    b.place(3, 5) #1 
+    b.place(1, 0) #2
     print(b)
-    for element in empty:
-        print(element[0])
-    print(", ".join(str(element) for element in empty))
+    print()
+    b.place(2, 0) #1
+    print(b)
     
 
 
