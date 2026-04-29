@@ -50,6 +50,17 @@ class Board:
 
         self.board[row][col] = 0
         return result
+    
+
+    def legal_moves(self, color) -> set:
+        #none represents 'pass' 
+        all_legal_moves = set()
+        all_legal_moves.add(None)
+        for r in range(9):
+            for c in range(9):
+                if self.is_legal(r, c, color):
+                    all_legal_moves.add((r, c))
+        return all_legal_moves
 
 
     def place(self, row, col): #uses a simply row and column to make the move
