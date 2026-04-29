@@ -54,7 +54,7 @@ class Board:
 
     def place(self, row, col): #uses a simply row and column to make the move
         #make a check to see whether the move is available
-        if self.board[row][col] == 1 or self.board[row][col] == 2:
+        if not self.is_legal(row, col, self.current_player):
             print("Invalid move")
             return
         else:
@@ -67,11 +67,6 @@ class Board:
                 removable = self._traversal(element[0], element[1], self.board[element[0]][element[1]])
                 for item in removable:
                     self.board[item[0]][item[1]] = 0
-        
-        if self.count_liberties(row, col) == 0:
-            self.board[row][col] = 0
-            print("Invalid move")
-            return
 
         self.last_was_pass = False
 
