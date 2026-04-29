@@ -33,6 +33,23 @@ class Board:
             self.last_was_pass = True
         if self.game_over:
             self._announce_winner()
+    
+
+    def is_legal(self, row, col, color):
+        result = True
+        if self.board[row][col] != 0:
+            result = False
+        self.board[row][col] = color
+        adjacents = self.get_adj(row, col)
+
+        for element in adjacents:
+            if self.count_liberties(element[0], element[1]) == 0 and self.board[element[0]][element[1]] != color:
+                result = True
+        if self.count_liberties(row, col) == 0:
+            result = False
+
+        self.board[row][col] = 0
+        return result
 
 
     def place(self, row, col): #uses a simply row and column to make the move
@@ -96,8 +113,8 @@ class Board:
     
     def count_liberties(self, row, col) -> int:
         visited = set()
-        temp = self._traversal(row, col, self.board[row][col])
-        for element in temp:
+        connected = self._traversal(row, col, self.board[row][col])
+        for element in connected:
             r = element[0]
             c = element[1]
             #no need for a 'not in visited' check since if it was already in visited it would simply not be added again. sets hold unique values
@@ -185,10 +202,13 @@ def main():
     print()
     b.place(2, 0) #1
     b.place(7, 7) #2
+    b.place(0, 0) #1
+    print(b.is_legal(0, 1, 2))
+    print(b.is_legal(1, 0, 2))
+    print(b.is_legal(0, 1, 1))
+    print(b.is_legal(1, 0, 1))
     print(b)
 
-    b.skip()
-    b.skip()
 
 
 
