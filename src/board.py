@@ -8,6 +8,8 @@ class Board:
         self.last_was_pass = False
         self.current_player = 1
         self.game_over = False
+        self.black_score = 0
+        self.white_score = 6.5 #starts with komi bonus
 
 
     #retrieves all adjacent pieces to the provided piece
@@ -29,6 +31,9 @@ class Board:
         else: #if the opponent hasn't, then the game continues 
             self.moves += 1
             self.last_was_pass = True
+        if self.game_over:
+            self._announce_winner()
+
 
     def place(self, row, col): #uses a simply row and column to make the move
         #make a check to see whether the move is available
@@ -51,13 +56,17 @@ class Board:
             print("Invalid move")
             return
 
-        self.board[row][col] = self.current_player
+        self.last_was_pass = False
 
         self.moves += 1
 
         self.current_player = 2 if self.current_player == 1 else 1
 
         if self.moves >= 400: self.game_over = True
+
+        if self.game_over:
+            self._announce_winner()
+
 
     def __str__(self):
         rows = []
@@ -100,7 +109,64 @@ class Board:
                 visited.add((r, c + 1))
             if c > 0 and self.board[r][c - 1] == 0:
                 visited.add((r, c - 1))   
-        return len(visited)             
+        return len(visited)
+    
+    def scoring(self):
+        self.black_score = 0
+        self.white_score = 6.5
+        total_visited = set()
+        all_positions = {(r, c) for r in range(9) for c in range(9)}
+        black_list = set()
+        white_list = set()
+
+        for element in all_positions:
+            if self.board[element[0]][element[1]] == 1:
+                black_list.add(element)
+                self.black_score += 1
+            elif self.board[element[0]][element[1]] == 2:
+                white_list.add(element)
+                self.white_score += 1
+        
+        all_positions -= black_list
+        all_positions -= white_list
+        total_visited.update(black_list)
+        total_visited.update(white_list)
+
+        for element in all_positions:
+            if element not in total_visited:
+                adjacents = set()
+                open_space = self._traversal(element[0], element[1], self.board[element[0]][element[1]])
+                total_visited.update(open_space)
+                for item in open_space:
+                    temp = self.get_adj(item[0], item[1])
+                    for thing in temp:
+                        if self.board[thing[0]][thing[1]] != 0:
+                            adjacents.add(thing)
+                if not adjacents:
+                    continue
+                chosen = next(iter(adjacents))
+                piece_type = self.board[chosen[0]][chosen[1]]
+                all_same = True
+                for item in adjacents:
+                    if self.board[item[0]][item[1]] != piece_type:
+                        all_same = False
+                if all_same:
+                    if piece_type == 1:
+                        self.black_score += len(open_space)
+                    else:
+                        self.white_score += len(open_space)
+
+    def _announce_winner(self):
+        self.scoring()
+        print("Player 1 has " + str(self.black_score) + "!")
+        print("Player 2 has " + str(self.white_score) + "!")
+        if(self.white_score > self.black_score):
+            print("Player 2 wins!")
+        else:
+            print("Player 1 wins!")
+
+        
+
 
 
 
@@ -118,8 +184,11 @@ def main():
     print(b)
     print()
     b.place(2, 0) #1
+    b.place(7, 7) #2
     print(b)
-    
+
+    b.skip()
+    b.skip()
 
 
 
