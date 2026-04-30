@@ -31,6 +31,7 @@ class Board:
         else: #if the opponent hasn't, then the game continues 
             self.moves += 1
             self.last_was_pass = True
+        self.current_player = 2 if self.current_player == 1 else 1
         if self.game_over:
             self._announce_winner()
     
@@ -38,7 +39,7 @@ class Board:
     def is_legal(self, row, col, color):
         result = True
         if self.board[row][col] != 0:
-            result = False
+            return False
         self.board[row][col] = color
         adjacents = self.get_adj(row, col)
 
@@ -66,7 +67,8 @@ class Board:
     def place(self, row, col): #uses a simply row and column to make the move
         #make a check to see whether the move is available
         if not self.is_legal(row, col, self.current_player):
-            print("Invalid move")
+            # print("Invalid move")
+            print(f"Invalid move at ({row}, {col}) for player {self.current_player}")
             return
         else:
             self.board[row][col] = self.current_player
