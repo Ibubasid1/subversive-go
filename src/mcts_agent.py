@@ -47,3 +47,12 @@ class _Node:
         return most_visited
     
     
+    def expand_node(self) -> bool:
+        available_legal_moves = self.current_state.legal_moves(self.current_state.current_player);
+        if not available_legal_moves:
+            return False
+        for move in available_legal_moves:
+            new_state = self.current_state.simulate_move(move)
+            new_child = _Node(new_state, self, move)
+            self.children.append(new_child)
+        return True
