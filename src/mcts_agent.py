@@ -27,3 +27,23 @@ class _Node:
             return math.inf
         average_value = self.value/self.visits
         return average_value + constant * math.sqrt(math.log(self.parent.visits)/self.visits)
+    
+    def get_best_child(self):
+        max_ucb1_value = -math.inf
+        chosen_child = None
+        for child in self.children:
+            child_ucb1_value = child.calculate_ucb_value()
+            if child_ucb1_value > max_ucb1_value:
+                max_ucb1_value = child_ucb1_value
+                chosen_child = child
+        return chosen_child
+    
+    
+    def most_love_child(self):
+        most_visited = random.choice(self.children)
+        for child in self.children:
+            if child.visits > most_visited.visits:
+                most_visited = child
+        return most_visited
+    
+    
