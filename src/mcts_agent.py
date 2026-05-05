@@ -1,5 +1,6 @@
 from board import Board
 import math
+import random
 
 
 class _Node:
@@ -16,3 +17,13 @@ class _Node:
         self.children.append(child)
     
     
+    @property
+    def is_leaf(self) -> bool:
+        return not self.children
+    
+    
+    def calculate_ucb1_value(self, constant = 2) -> float:
+        if self.visits == 0 or not self.parent:
+            return math.inf
+        average_value = self.value/self.visits
+        return average_value + constant * math.sqrt(math.log(self.parent.visits)/self.visits)
