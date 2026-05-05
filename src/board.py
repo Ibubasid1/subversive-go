@@ -35,6 +35,11 @@ class Board:
         if self.game_over:
             self._announce_winner()
     
+    
+    @property
+    def is_terminal(self):
+        return self.game_over()
+    
 
     def is_legal(self, row, col, color):
         result = True
@@ -189,10 +194,13 @@ class Board:
             print("Player 2 wins!")
         else:
             print("Player 1 wins!")
-
-        
-
-
+            
+            
+    def get_value(self, piece):
+        if self.is_terminal:
+            if piece == 1:
+                return self.black_score
+            return self.white_score;  
 
 
 
