@@ -1,6 +1,7 @@
 from board import Board
 import math
 import random
+import copy
 
 
 class _Node:
@@ -63,3 +64,11 @@ class MCTS:
         while not node.is_leaf:
             node = node.get_best_child()
         return node
+    
+    
+    def simulation(self, node: "_Node"):
+        state = copy.deepcopy(node.current_state)
+        while True:
+            if state.is_terminal:
+                return state.get_value()
+            state = state.simulate_move(state.random_move())

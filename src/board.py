@@ -1,4 +1,5 @@
 import copy
+import random
 
 class Board:
 
@@ -207,6 +208,11 @@ class Board:
         new_board = copy.deepcopy(self)
         new_board.place(move[0], move[1])
         return new_board
+    
+    
+    def random_move(self):
+        random_move = random.choice(self.legal_moves(self.current_player))
+        return random_move
 
 
 
