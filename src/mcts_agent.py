@@ -56,3 +56,10 @@ class _Node:
             new_child = _Node(new_state, self, move)
             self.children.append(new_child)
         return True
+    
+    
+class MCTS:
+    def node_selection(self, node) -> _Node:
+        while not node.is_leaf:
+            node = node.get_best_child()
+        return node
