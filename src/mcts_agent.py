@@ -78,8 +78,7 @@ class MCTS:
             value = self.simulation(leaf)
             self.backpropagate(leaf, value)
             sims += 1
-            
-        print(f"Simulations completed: {sims}")
+
         if not root_node.children:
             return None
             
@@ -89,16 +88,18 @@ def main():
     board = Board()
     agent = MCTS()
     agent2 = MCTS()
+    moves = 0
     
     while not board.game_over:
         print("\nPlayer 1 Thinking...")
-        move = agent.get_best_move(board, time_limit=2.0)
+        move = agent.get_best_move(board, time_limit=1.0)
         board.place(move)
         print(board)
         if board.game_over: break
+        moves += 1
         
         print("\nPlayer 2 Thinking...")
-        move = agent2.get_best_move(board, time_limit=2.0)
+        move = agent2.get_best_move(board, time_limit=1.0)
         board.place(move)
         print(board)
         if board.game_over: break
@@ -107,6 +108,7 @@ def main():
     print("\nGame Over!")
     print(f"Black Score: {board.black_score}")
     print(f"White Score: {board.white_score}")
+    print(f"Moves taken: {moves}")
 
 if __name__ == "__main__":
     main()
