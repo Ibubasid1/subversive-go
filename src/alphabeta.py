@@ -12,7 +12,12 @@ class AlphaBetaAgent:
         if depth == 0 or board.game_over:
             return self.evaluate(board), None
 
-        moves = board.get_legal_moves()
+        if maximizing:
+            color = 1
+        else:
+            color = 2
+
+        moves = board.legal_moves(color)
         if not moves:
             return self.evaluate(board), None
 
@@ -21,7 +26,10 @@ class AlphaBetaAgent:
             max_eval = float('-inf')
             for move in moves:
                 sim = copy.deepcopy(board)
-                sim.place(move[0], move[1])
+                if move is None:
+                    sim.skip()
+                else:
+                    sim.place(move[0], move[1])
                 eval_score, _ = self.search(sim, depth - 1, alpha, beta, False)
                 if eval_score > max_eval:
                     max_eval = eval_score
@@ -33,7 +41,10 @@ class AlphaBetaAgent:
             min_eval = float('inf')
             for move in moves:
                 sim = copy.deepcopy(board)
-                sim.place(move[0], move[1])
+                if move is None:
+                    sim.skip()
+                else:
+                    sim.place(move[0], move[1])
                 eval_score, _ = self.search(sim, depth - 1, alpha, beta, True)
                 if eval_score < min_eval:
                     min_eval = eval_score
