@@ -60,6 +60,11 @@ class Board:
     def is_legal(self, row, col, color):
         if self.board[row][col] != 0:
             return False
+        
+        for r, c in self.get_adj(row, col):
+            if self.board[r][c] == 0:
+                return True
+        
         self.board[row][col] = color
         
         captures = False
@@ -69,7 +74,7 @@ class Board:
                 break
         has_liberties = self.count_liberties(row, col) > 0
         
-        self.board[row][col] = 0          # always restore, before any return
+        self.board[row][col] = 0  
         return has_liberties or captures
     
 
@@ -232,8 +237,15 @@ class Board:
     
     
     def random_move(self):
-        random_move = random.choice(self.legal_moves(self.current_player)) #type: ignore
-        return random_move
+        # try random empty squares first
+        for _ in range(30):
+            r = random.randint(0, 8)
+            c = random.randint(0, 8)
+            if self.board[r][c] == 0 and self.is_legal(r, c, self.current_player):
+                return (r, c)
+        # rare fallback: do the full scan
+        moves = self.legal_moves(self.current_player)
+        return random.choice(moves)
 
 
 

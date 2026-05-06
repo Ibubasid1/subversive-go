@@ -2,7 +2,8 @@ from board import Board
 import math
 import random
 import time
-import copy
+
+
 
 
 class _Node:
@@ -123,10 +124,12 @@ def main():
         print(board)
         if board.game_over: break
     board._announce_winner()
+    
         
         
 if __name__ == "__main__":
-    main()
+    import cProfile
+    cProfile.run('main()', sort='cumulative')
     
 #filler
 #filler
