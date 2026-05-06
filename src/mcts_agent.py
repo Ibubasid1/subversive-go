@@ -1,4 +1,4 @@
-from board import Board
+from optimized_board import Board
 import math
 import random
 import time
