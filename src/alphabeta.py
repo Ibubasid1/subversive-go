@@ -1,11 +1,9 @@
-import copy
-
 class AlphaBetaAgent:
     def __init__(self, depth=2):
         self.depth = depth
 
     def evaluate(self, board):
-        board.scoring()
+        board.fast_score()
         return board.black_score - board.white_score
 
     def search(self, board, depth, alpha, beta, maximizing):
@@ -25,11 +23,8 @@ class AlphaBetaAgent:
         if maximizing:
             max_eval = float('-inf')
             for move in moves:
-                sim = copy.deepcopy(board)
-                if move is None:
-                    sim.skip()
-                else:
-                    sim.place(move[0], move[1])
+                sim = board.clone()
+                sim.place(move)
                 eval_score, _ = self.search(sim, depth - 1, alpha, beta, False)
                 if eval_score > max_eval:
                     max_eval = eval_score
@@ -40,11 +35,8 @@ class AlphaBetaAgent:
         else:
             min_eval = float('inf')
             for move in moves:
-                sim = copy.deepcopy(board)
-                if move is None:
-                    sim.skip()
-                else:
-                    sim.place(move[0], move[1])
+                sim = board.clone()
+                sim.place(move)
                 eval_score, _ = self.search(sim, depth - 1, alpha, beta, True)
                 if eval_score < min_eval:
                     min_eval = eval_score
