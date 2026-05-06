@@ -36,6 +36,7 @@ class Board:
             self.last_was_pass = True
         self.current_player = 2 if self.current_player == 1 else 1
         # if self.game_over:
+        #     self.scoring()
         #     self._announce_winner()
     
     
@@ -45,20 +46,19 @@ class Board:
     
 
     def is_legal(self, row, col, color):
-        result = True
         if self.board[row][col] != 0:
             return False
         self.board[row][col] = color
-        adjacents = self.get_adj(row, col)
-
-        for element in adjacents:
-            if self.count_liberties(element[0], element[1]) == 0 and self.board[element[0]][element[1]] != color:
-                result = True
-        if self.count_liberties(row, col) == 0:
-            result = False
-
-        self.board[row][col] = 0
-        return result
+        
+        captures = False
+        for r, c in self.get_adj(row, col):
+            if self.board[r][c] not in (0, color) and self.count_liberties(r, c) == 0:
+                captures = True
+                break
+        has_liberties = self.count_liberties(row, col) > 0
+        
+        self.board[row][col] = 0          # always restore, before any return
+        return has_liberties or captures
     
 
     def legal_moves(self, color):
@@ -91,6 +91,7 @@ class Board:
         self.current_player = 2 if self.current_player == 1 else 1
         if self.moves >= 400: self.game_over = True
         # if self.game_over:
+        #     self.scoring()
         #     self._announce_winner()
 
 
@@ -196,6 +197,7 @@ class Board:
             
     def get_value(self, piece):
         if self.is_terminal:
+            self.scoring()
             if piece == 1:
                 if self.black_score > self.white_score:
                     return 1

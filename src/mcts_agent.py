@@ -99,6 +99,75 @@ class MCTS:
             value = self.simulation(node)
             self.backpropagate(node, value)
         most_visited_child = root_node.most_loved_child()
+        print(root_node.visits)
         return most_visited_child.move
         
+def main():
+    board = Board()
+    agent = MCTS()
+    agent2 = MCTS()
+    # print(len(board.legal_moves(board.current_player)))
+    while not board.game_over:
+        move = agent.get_best_move(board)
+        if move == None:
+            board.skip()
+        else:
+            board.place(move[0], move[1])
+        print(board)
+        if board.game_over: break
+        move = agent2.get_best_move(board)
+        if move == None:
+            board.skip()
+        else:
+            board.place(move[0], move[1])
+        print(board)
+        if board.game_over: break
+    board._announce_winner()
         
+        
+if __name__ == "__main__":
+    main()
+    
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
+#filler
