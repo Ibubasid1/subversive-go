@@ -29,18 +29,18 @@ class _Node:
         average_value = self.value/self.visits
         return average_value + constant * math.sqrt(math.log(self.parent.visits)/self.visits)
     
-    def get_best_child(self):
+    
+    def get_best_child(self) -> "_Node":
         max_ucb1_value = -math.inf
-        chosen_child = None
         for child in self.children:
             child_ucb1_value = child.calculate_ucb_value()
             if child_ucb1_value > max_ucb1_value:
                 max_ucb1_value = child_ucb1_value
-                chosen_child = child
-        return chosen_child
+                best_child = child
+        return best_child
     
     
-    def most_love_child(self):
+    def most_loved_child(self):
         most_visited = random.choice(self.children)
         for child in self.children:
             if child.visits > most_visited.visits:
@@ -68,6 +68,7 @@ class MCTS:
     
     def simulation(self, node: "_Node"):
         state = copy.deepcopy(node.current_state)
+        current_player = 2 if state.current_player == 1 else 1
         while True:
             if state.is_terminal:
                 return state.get_value()

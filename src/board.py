@@ -2,7 +2,6 @@ import copy
 import random
 
 class Board:
-
     SIZE = 9
 
     def __init__(self):
@@ -27,6 +26,7 @@ class Board:
         if col > 0:
             adjacent.add((row, col - 1))
         return adjacent
+    
     
     def skip(self):
         if self.last_was_pass: #checks if opponent has already passed
@@ -80,23 +80,16 @@ class Board:
             return
         else:
             self.board[row][col] = self.current_player
-
         temp = self.get_adj(row, col)
-
         for element in temp:
             if self.count_liberties(element[0], element[1]) == 0 and self.board[element[0]][element[1]] != self.current_player:
                 removable = self._traversal(element[0], element[1], self.board[element[0]][element[1]])
                 for item in removable:
                     self.board[item[0]][item[1]] = 0
-
         self.last_was_pass = False
-
         self.moves += 1
-
         self.current_player = 2 if self.current_player == 1 else 1
-
         if self.moves >= 400: self.game_over = True
-
         if self.game_over:
             self._announce_winner()
 
@@ -201,7 +194,8 @@ class Board:
             print("Player 1 wins!")
             
             
-    def get_value(self, piece):
+    def get_value(self):
+        piece = 2 if self.current_player == 1 else 1
         if self.is_terminal:
             if piece == 1:
                 if self.black_score > self.white_score:
