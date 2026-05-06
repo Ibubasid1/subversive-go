@@ -14,6 +14,18 @@ class Board:
         self.white_score = 6.5 #starts with komi bonus
 
 
+    def clone(self):
+        new = Board.__new__(Board)          # bypass __init__
+        new.board = [row[:] for row in self.board]
+        new.moves = self.moves
+        new.last_was_pass = self.last_was_pass
+        new.current_player = self.current_player
+        new.game_over = self.game_over
+        new.black_score = self.black_score
+        new.white_score = self.white_score
+        return new
+
+
     #retrieves all adjacent pieces to the provided piece
     def get_adj(self, row, col):
         adjacent = set()
@@ -211,7 +223,7 @@ class Board:
         
         
     def simulate_move(self, move):
-        new_board = copy.deepcopy(self)
+        new_board = self.clone()
         if move == None:
             new_board.skip()
         else:

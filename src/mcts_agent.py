@@ -69,7 +69,7 @@ class MCTS:
     
     
     def simulation(self, node: "_Node"):
-        state = copy.deepcopy(node.current_state)
+        state = node.current_state
         current_player = 2 if state.current_player == 1 else 1
         while True:
             if state.is_terminal:
