@@ -1,10 +1,12 @@
 from board import Board
 from random_agent import RandomAgent
 from alphabeta import AlphaBetaAgent
+import time
 
 
 agent1win = 0
 agent2win = 0
+start_time = time.time()
 for i in range(25):
     board = Board()
     randAgent = RandomAgent(1)
@@ -28,7 +30,8 @@ for i in range(25):
         agent1win += 1
     else:
         agent2win += 1  
-    
+
+print("Time taken: ", time.time() - start_time, " seconds.")
     
 
 print("One wins: ", str(agent1win))
@@ -53,18 +56,19 @@ for i in range(25):
         randWins += 1
     else:
         abWins += 1
+    print("Round ", i, " done.")
     
 for i in range(25):
     board = Board()
     randAgent = RandomAgent(2)
     abAgent = AlphaBetaAgent()
     while(not board.game_over):
-        randAgent.make_move(board)
         _, move = abAgent.search(board, abAgent.depth, float('-inf'), float('inf'), True)
         if move is None:
             board.skip()
         else:
             board.place(move[0], move[1])
+        randAgent.make_move(board)
     if board.result == 2:
         randWins += 1
     else:
