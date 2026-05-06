@@ -10,6 +10,7 @@ class Board:
         self.game_over = False
         self.black_score = 0
         self.white_score = 6.5 #starts with komi bonus
+        self.result = 0
 
 
     #retrieves all adjacent pieces to the provided piece
@@ -38,7 +39,7 @@ class Board:
     
     @property
     def is_terminal(self):
-        return self.game_over()
+        return self.game_over
     
 
     def is_legal(self, row, col, color):
@@ -188,12 +189,14 @@ class Board:
 
     def _announce_winner(self):
         self.scoring()
-        print("Player 1 has " + str(self.black_score) + "!")
-        print("Player 2 has " + str(self.white_score) + "!")
+        # print("Player 1 has " + str(self.black_score) + "!")
+        # print("Player 2 has " + str(self.white_score) + "!")
         if(self.white_score > self.black_score):
-            print("Player 2 wins!")
+            # print("Player 2 wins!")
+            self.result = 2
         else:
-            print("Player 1 wins!")
+            # print("Player 1 wins!")
+            self.result = 1
             
             
     def get_value(self, piece):
