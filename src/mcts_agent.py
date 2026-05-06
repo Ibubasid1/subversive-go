@@ -1,6 +1,7 @@
 from board import Board
 import math
 import random
+import time
 import copy
 
 
@@ -57,8 +58,9 @@ class _Node:
             new_child = _Node(new_state, self, move)
             self.children.append(new_child)
         return True
-    
-    
+
+
+
 class MCTS:
     def node_selection(self, node) -> _Node:
         while not node.is_leaf:
@@ -68,8 +70,36 @@ class MCTS:
     
     def simulation(self, node: "_Node"):
         state = copy.deepcopy(node.current_state)
-        current_player = 2 if state.current_player == 1 else 1
         while True:
             if state.is_terminal:
                 return state.get_value()
             state = state.simulate_move(state.random_move())
+    
+        
+    def backpropagate(self, node: "_Node", value):
+        current_node = node
+        while True:
+            current_node.visits += 1
+            current_node.value += value
+            if not current_node.parent:
+                break
+            value = -value
+            current_node = current_node.parent
+            
+    def get_best_move(self, current_state: "Board") -> tuple: #type: ignore
+        root_node = _Node(current_state)
+        current_time = time.time()
+        while time.time() - current_time < 1:
+            node = self.node_selection(root_node)
+            if not node.current_state.is_terminal:
+                if node.visits:
+                    node.expand_node()
+                    node = random.choice(node.children)
+            value = self.simulation(node)
+            self.backpropagate(node, value)
+            most_visited_child = root_node.most_loved_child()
+            return most_visited_child
+        
+        
+
+        

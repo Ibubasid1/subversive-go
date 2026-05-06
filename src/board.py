@@ -61,14 +61,14 @@ class Board:
         return result
     
 
-    def legal_moves(self, color) -> set:
+    def legal_moves(self, color):
         #none represents 'pass' 
-        all_legal_moves = set()
-        all_legal_moves.add(None)
-        for r in range(9):
-            for c in range(9):
+        all_legal_moves = []
+        all_legal_moves.append(None)
+        for r in range(self.SIZE):
+            for c in range(self.SIZE):
                 if self.is_legal(r, c, color):
-                    all_legal_moves.add((r, c))
+                    all_legal_moves.append((r, c))
         return all_legal_moves
 
 
