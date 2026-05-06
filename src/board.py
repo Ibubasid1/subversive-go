@@ -107,6 +107,7 @@ class Board:
             rows.append("|".join(str(cell) for cell in row))
         return "\n".join(rows)
 
+
     def _traversal_helper(self, row, col, color, visited) -> set:
         visited.add((row, col))
         if (row + 1) < self.SIZE and self.board[row + 1][col] == color and (row + 1, col) not in visited:
@@ -119,6 +120,7 @@ class Board:
             self._traversal_helper(row, col - 1, color, visited)
         return visited
 
+
     #main traversal function, used so that the 'visited' set is not reset on every instance of recursion
     def _traversal(self, row, col, color) -> set:
         #checks for bounds and ensures color is the same as the piece currently in that position
@@ -126,6 +128,7 @@ class Board:
             visited = set()
             return self._traversal_helper(row, col, color, visited)
         return set()
+    
     
     def count_liberties(self, row, col) -> int:
         visited = set()
@@ -144,6 +147,7 @@ class Board:
                 visited.add((r, c - 1))   
         return len(visited)
     
+    
     def scoring(self):
         self.black_score = 0
         self.white_score = 6.5
@@ -151,7 +155,6 @@ class Board:
         all_positions = {(r, c) for r in range(9) for c in range(9)}
         black_list = set()
         white_list = set()
-
         for element in all_positions:
             if self.board[element[0]][element[1]] == 1:
                 black_list.add(element)
@@ -159,12 +162,10 @@ class Board:
             elif self.board[element[0]][element[1]] == 2:
                 white_list.add(element)
                 self.white_score += 1
-        
         all_positions -= black_list
         all_positions -= white_list
         total_visited.update(black_list)
         total_visited.update(white_list)
-
         for element in all_positions:
             if element not in total_visited:
                 adjacents = set()
@@ -189,6 +190,7 @@ class Board:
                     else:
                         self.white_score += len(open_space)
 
+
     def _announce_winner(self):
         self.scoring()
         print("Player 1 has " + str(self.black_score) + "!")
@@ -199,9 +201,18 @@ class Board:
             print("Player 1 wins!")
             
             
-    def get_value(self):
+    def get_value(self, piece):
         if self.is_terminal:
-            return 1 
+            if piece == 1:
+                if self.black_score > self.white_score:
+                    return 1
+                else:
+                    return -1
+            else:
+                if self.white_score > self.black_score:
+                    return 1
+                else:
+                    return -1 
         
         
     def simulate_move(self, move: tuple):
@@ -211,7 +222,7 @@ class Board:
     
     
     def random_move(self):
-        random_move = random.choice(self.legal_moves(self.current_player))
+        random_move = random.choice(self.legal_moves(self.current_player)) #type: ignore
         return random_move
 
 
