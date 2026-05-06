@@ -209,9 +209,12 @@ class Board:
                     return -1 
         
         
-    def simulate_move(self, move: tuple):
+    def simulate_move(self, move):
         new_board = copy.deepcopy(self)
-        new_board.place(move[0], move[1])
+        if move == None:
+            new_board.skip()
+        else:
+            new_board.place(move[0], move[1])
         return new_board
     
     
