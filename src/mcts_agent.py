@@ -34,7 +34,7 @@ class _Node:
     def get_best_child(self) -> "_Node":
         max_ucb1_value = -math.inf
         for child in self.children:
-            child_ucb1_value = child.calculate_ucb_value()
+            child_ucb1_value = child.calculate_ucb1_value()
             if child_ucb1_value > max_ucb1_value:
                 max_ucb1_value = child_ucb1_value
                 best_child = child
@@ -70,9 +70,10 @@ class MCTS:
     
     def simulation(self, node: "_Node"):
         state = copy.deepcopy(node.current_state)
+        current_player = 2 if state.current_player == 1 else 1
         while True:
             if state.is_terminal:
-                return state.get_value()
+                return state.get_value(current_player)
             state = state.simulate_move(state.random_move())
     
         
@@ -97,9 +98,7 @@ class MCTS:
                     node = random.choice(node.children)
             value = self.simulation(node)
             self.backpropagate(node, value)
-            most_visited_child = root_node.most_loved_child()
-            return most_visited_child
+        most_visited_child = root_node.most_loved_child()
+        return most_visited_child.move
         
-        
-
         

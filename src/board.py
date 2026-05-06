@@ -35,8 +35,8 @@ class Board:
             self.moves += 1
             self.last_was_pass = True
         self.current_player = 2 if self.current_player == 1 else 1
-        if self.game_over:
-            self._announce_winner()
+        # if self.game_over:
+        #     self._announce_winner()
     
     
     @property
@@ -90,8 +90,8 @@ class Board:
         self.moves += 1
         self.current_player = 2 if self.current_player == 1 else 1
         if self.moves >= 400: self.game_over = True
-        if self.game_over:
-            self._announce_winner()
+        # if self.game_over:
+        #     self._announce_winner()
 
 
     def __str__(self):
@@ -194,8 +194,7 @@ class Board:
             print("Player 1 wins!")
             
             
-    def get_value(self):
-        piece = 2 if self.current_player == 1 else 1
+    def get_value(self, piece):
         if self.is_terminal:
             if piece == 1:
                 if self.black_score > self.white_score:
